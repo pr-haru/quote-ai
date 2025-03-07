@@ -8,8 +8,12 @@ use Illuminate\Support\Facades\Http;
 class EmotionController extends Controller{
 public function index(Request $request) {
     //画面で入力したテキスト取得
-    $sentence = $request->input('text');     
-
+    $ApiKey = getenv('GEMINI_API_KEY');
+        $client = Gemini::client($ApiKey);
+    $sentence = $request->input('text'); 
+    $messege="この文章に寄り添った名言教えて{$sentence}";
+    $result = $client->geminiPro()->generateContent($messege);    
+    var_dump($result->text());
 }
 
 //viewからテキスト取得
